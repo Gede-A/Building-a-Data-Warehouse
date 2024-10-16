@@ -1,0 +1,1 @@
+{"_invocation_id": "d5a5161b-def3-47be-8a2d-ebec1da4e921", "linked": {"0": {"name": "source.my_project.my_database.gedebie", "type": "source", "succ": [1, 2]}, "1": {"name": "model.my_project.my_model", "type": "model"}, "2": {"name": "model.my_project.message_summary", "type": "model"}}}

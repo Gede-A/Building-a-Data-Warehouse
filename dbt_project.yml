@@ -1,0 +1,22 @@
+name: 'my_project'
+version: '1.0.0'
+
+profile: 'my_project'
+
+# Paths to the different types of files in your project
+model-paths: ["my_project/models"]  # This should point to your models directory
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+# Directories to be cleaned by `dbt clean`
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# Configuring model materialization
+models:
+  my_project:
+    +materialized: table  # Set all models to be materialized as tables

@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: message_summary
+    description: "This model summarizes the message data by sender, including the total message count and date ranges."
+    columns:
+      - name: Sender
+        description: "The individual who sent the message."
+      - name: message_count
+        description: "Total number of messages sent by the sender."
+      - name: first_message_date
+        description: "Date of the first message sent by the sender."
+      - name: last_message_date
+        description: "Date of the last message sent by the sender."
+      - name: message_duration_days
+        description: "Duration in days between the first and last messages sent by the sender."
+
+  - name: my_model
+    description: "A foundational model for pulling data from the gedebie table."
+    columns:
+      - name: Message_ID
+        description: "Unique identifier for each message."
+      - name: Sender
+        description: "The individual who sent the message."
+      - name: Date
+        description: "Date when the message was sent."
+      - name: Message
+        description: "Content of the message."

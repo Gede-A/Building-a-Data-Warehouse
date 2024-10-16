@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: my_database
+    database: dbt  # Change this to your database name
+    schema: public  # Change this to your schema if necessary
+    tables:
+      - name: gedebie
+        description: "Table containing messages"

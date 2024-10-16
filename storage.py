@@ -27,6 +27,7 @@ data = pd.read_csv(csv_file_path)
 # Optional: Check the DataFrame
 print(data.head())
 
+# Create the table if it does not exist
 create_table_query = '''
 CREATE TABLE IF NOT EXISTS gedebie (
     "Message ID" BIGINT PRIMARY KEY,
@@ -38,15 +39,19 @@ CREATE TABLE IF NOT EXISTS gedebie (
 cursor.execute(create_table_query)
 conn.commit()
 
-table_name = 'gedebie';
+# Insert DataFrame into PostgreSQL with ON CONFLICT to handle duplicates
+table_name = 'gedebie'
 
-# Insert DataFrame to PostgreSQL
 for index, row in data.iterrows():
-    # Create an insert query
-    insert_query = sql.SQL("INSERT INTO {} ({}) VALUES ({})").format(
+    # Create an insert query with ON CONFLICT to skip duplicates
+    insert_query = sql.SQL("""
+        INSERT INTO {} ({}) 
+        VALUES ({}) 
+        ON CONFLICT ("Message ID") DO NOTHING
+    """).format(
         sql.Identifier(table_name),
         sql.SQL(', ').join(map(sql.Identifier, data.columns)),
-        sql.SQL(', ').join(sql.Placeholder() * len(row))
+        sql.SQL(', ').join(sql.Placeholder() for _ in range(len(row)))
     )
 
     # Execute the query
@@ -56,6 +61,18 @@ for index, row in data.iterrows():
 conn.commit()
 print("Data inserted successfully.")
 
-# Close the cursor and connection
+# Alter table to add new columns
+altertable = '''
+ALTER TABLE gedebie
+ADD COLUMN image_name VARCHAR(255),
+ADD COLUMN class_id INTEGER,
+ADD COLUMN confidence FLOAT,
+ADD COLUMN bbox TEXT;
+'''
+cursor.execute(altertable)
+
+# Commit and close the database connection
+conn.commit()
 cursor.close()
 conn.close()
+print("Table structure updated successfully.")
